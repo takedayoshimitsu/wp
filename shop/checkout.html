@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>StableShop — Оплата</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    /* ===== Локальные стили Checkout (поверх общего styles.css) ===== */
+    .checkout-wrap { padding-top: 96px; }
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px; /* форма + боковая панель итогов */
+      gap: 24px;
+      align-items: start;
+    }
+    .card-panel {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .card-panel h3 { margin: 0 0 10px; font-size: 18px; }
+
+    /* Форма */
+    form.checkout-form { display: grid; gap: 16px; }
+    .fieldset { border: 0; padding: 0; margin: 0; }
+    .legend { font-weight: 800; margin-bottom: 8px; }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 12px;
+    }
+    .field { display: grid; gap: 6px; }
+    .field label { font-weight: 600; }
+    .field input, .field select, .field textarea {
+      padding: 10px 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      font: inherit;
+      background: #fff;
+    }
+
+    .radio-row { display: grid; gap: 8px; }
+    .radio-item {
+      display: grid;
+      grid-template-columns: 22px 1fr auto;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      background: #fff;
+    }
+    .radio-item small { color: #64748b; }
+
+    /* Итоги */
+    .summary { position: sticky; top: 88px; }
+    .sum-list { display: grid; gap: 10px; margin-bottom: 12px; }
+    .sum-item {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+    .sum-img {
+      width: 56px; height: 56px; border: 1px solid #e2e8f0; border-radius: 8px;
+      display: grid; place-items: center; background: #f8fafc; overflow: hidden;
+    }
+    .sum-img img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
+
+    .sum-row { display: flex; justify-content: space-between; margin: 6px 0; }
+    .sum-row.total { font-weight: 800; font-size: 18px; }
+
+    /* Ошибки */
+    .error {
+      color: #ef4444;
+      font-size: 12px;
+      display: none;
+    }
+    .invalid .error { display: block; }
+    .invalid input, .invalid select, .invalid textarea {
+      border-color: #ef4444;
+    }
+
+    /* Успешное подтверждение */
+    #success {
+      display: none;
+      text-align: center;
+      padding: 28px;
+    }
+    #success h2 { margin-top: 0; }
+    #success .muted { color:#64748b; }
+
+    /* Адаптив */
+    @media (max-width: 980px) {
+      .checkout-grid { grid-template-columns: 1fr; }
+      .summary { position: static; }
+    }
+    @media (max-width: 640px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Шапка -->
+  <header class="header">
+    <div class="container nav" role="navigation" aria-label="Главное меню">
+      <a href="index.html" aria-label="На главную"><strong>StableShop</strong></a>
+      <nav>
+        <a href="products.html">Каталог</a>
+        <a href="cart.html">Корзина</a>
+        <a href="checkout.html" aria-current="page">Оплата</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container checkout-wrap">
+    <h1 class="page-title">Оплата</h1>
+    <p class="page-subtitle">Заполните данные для оплаты и доставки.</p>
+
+    <!-- Сообщение об успехе -->
+    <section id="success" class="card-panel">
+      <h2>Спасибо! Заказ оформлен ✅</h2>
+      <p class="muted">Мы отправили подтверждение на вашу почту. Корзина очищена.</p>
+      <div style="margin-top:12px;">
+        <a class="btn" href="products.html">Вернуться в каталог</a>
+      </div>
+    </section>
+
+    <section id="checkout" class="checkout-grid" aria-label="Оформление заказа">
+      <!-- ====== Левая колонка — форма ====== -->
+      <form id="form" class="checkout-form" novalidate>
+        <!-- Контакты -->
+        <fieldset class="fieldset card-panel">
+          <div class="legend">Контактные данные</div>
+          <div class="grid-2">
+            <div class="field" id="f-name">
+              <label for="name">Имя и фамилия</label>
+              <input id="name" name="name" type="text" autocomplete="name" placeholder="Иван Иванов" required>
+              <div class="error">Укажите имя и фамилию.</div>
+            </div>
+            <div class="field" id="f-email">
+              <label for="email">E-mail</label>
+              <input id="email" name="email" type="email" autocomplete="email" placeholder="name@example.com" required>
+              <div class="error">Укажите корректный e-mail.</div>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="field" id="f-phone">
+              <label for="phone">Телефон</label>
+              <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="+7 999 123-45-67" required>
+              <div class="error">Укажите телефон (мин. 10 цифр).</div>
+            </div>
+            <div class="field">
+              <label for="comment">Комментарий (необязательно)</label>
+              <input id="comment" name="comment" type="text" placeholder="Позвонить курьеру заранее">
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Адрес -->
+        <fieldset class="fieldset card-panel">
+          <div class="legend">Адрес доставки</div>
+          <div class="field" id="f-street">
+            <label for="street">Улица, дом, квартира</label>
+            <input id="street" name="street" type="text" placeholder="ул. Пушкина, д. 10, кв. 5" required>
+            <div class="error">Укажите улицу, дом и квартиру.</div>
+          </div>
+          <div class="grid-3">
+            <div class="field" id="f-city">
+              <label for="city">Город</label>
+              <input id="city" name="city" type="text" placeholder="Москва" required>
+              <div class="error">Укажите город.</div>
+            </div>
+            <div class="field" id="f-zip">
+              <label for="zip">Индекс</label>
+              <input id="zip" name="zip" type="text" inputmode="numeric" placeholder="101000" required>
+              <div class="error">Укажите индекс (6 цифр).</div>
+            </div>
+            <div class="field">
+              <label for="country">Страна</label>
+              <select id="country" name="country" required>
+                <option value="RU" selected>Россия</option>
+                <option value="BY">Беларусь</option>
+                <option value="KZ">Казахстан</option>
+              </select>
+              <div class="error">Выберите страну.</div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Доставка -->
+        <fieldset class="fieldset card-panel">
+          <div class="legend">Способ доставки</div>
+          <div class="radio-row" id="delivery">
+            <label class="radio-item">
+              <input type="radio" name="delivery" value="courier" checked>
+              <div>
+                Курьером, 1–3 дня<br><small>по России, бесплатно</small>
+              </div>
+              <strong>0 ₽</strong>
+            </label>
+            <label class="radio-item">
+              <input type="radio" name="delivery" value="pickup">
+              <div>
+                Самовывоз, сегодня<br><small>пункт выдачи рядом с вами</small>
+              </div>
+              <strong>0 ₽</strong>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Оплата -->
+        <fieldset class="fieldset card-panel">
+          <div class="legend">Оплата картой</div>
+          <div class="grid-2">
+            <div class="field" id="f-cardname">
+              <label for="cardname">Владелец карты</label>
+              <input id="cardname" name="cardname" type="text" placeholder="IVAN IVANOV" required>
+              <div class="error">Укажите имя владельца латиницей.</div>
+            </div>
+            <div class="field" id="f-cardnumber">
+              <label for="cardnumber">Номер карты</label>
+              <input id="cardnumber" name="cardnumber" type="text" inputmode="numeric" placeholder="0000 0000 0000 0000" maxlength="19" required>
+              <div class="error">Проверьте номер карты.</div>
+            </div>
+          </div>
+          <div class="grid-3">
+            <div class="field" id="f-exp">
+              <label for="exp">Срок (MM/YY)</label>
+              <input id="exp" name="exp" type="text" inputmode="numeric" placeholder="MM/YY" maxlength="5" required>
+              <div class="error">Проверьте срок действия.</div>
+            </div>
+            <div class="field" id="f-cvc">
+              <label for="cvc">CVC</label>
+              <input id="cvc" name="cvc" type="password" inputmode="numeric" placeholder="123" maxlength="3" required>
+              <div class="error">Введите 3 цифры CVC.</div>
+            </div>
+            <div class="field">
+              <label for="savecard"> </label>
+              <label style="display:flex; align-items:center; gap:8px;">
+                <input id="savecard" type="checkbox"> Запомнить карту на этом устройстве
+              </label>
+            </div>
+          </div>
+          <!-- <div class="muted" style="font-size:12px;">Оплата имитируется для учебного проекта. Реального списания средств не происходит.</div> -->
+        </fieldset>
+
+        <div style="display:flex; gap:12px; align-items:center;">
+          <button id="pay" class="btn" type="submit" disabled>Оплатить</button>
+          <a class="btn-outline" href="cart.html">Вернуться в корзину</a>
+        </div>
+      </form>
+
+      <!-- ====== Правая колонка — итоги ====== -->
+      <aside class="summary">
+        <div class="card-panel">
+          <h3>Ваш заказ</h3>
+          <div id="sum-list" class="sum-list"><!-- позиции --></div>
+          <div class="sum-row"><span>Товары</span><span id="sum-items">0 ₽</span></div>
+          <div class="sum-row"><span>Доставка</span><span id="sum-delivery">0 ₽</span></div>
+          <div class="sum-row total"><span>Итого</span><span id="sum-total">0 ₽</span></div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">© 2025 StableShop. Все права защищены.</div>
+  </footer>
+
+  <script>
+    // ===== Утилиты =====
+    const CURRENCY = new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB', maximumFractionDigits: 0 });
+    const $ = (sel, root = document) => root.querySelector(sel);
+    const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+    function loadCart() {
+      try { return JSON.parse(localStorage.getItem('cart')) || []; }
+      catch { return []; }
+    }
+    function saveCart(items) {
+      localStorage.setItem('cart', JSON.stringify(items));
+    }
+
+    // ===== Рендер итогов =====
+    const sumList = $('#sum-list');
+    const sumItemsEl = $('#sum-items');
+    const sumDeliveryEl = $('#sum-delivery');
+    const sumTotalEl = $('#sum-total');
+    const sectionCheckout = $('#checkout');
+    const sectionSuccess = $('#success');
+    const btnPay = $('#pay');
+
+    function renderSummary() {
+      const items = loadCart();
+      sumList.innerHTML = '';
+      if (!items.length) {
+        // Пустая корзина — блокируем оплату
+        btnPay.disabled = true;
+      }
+
+      let subtotal = 0;
+      items.forEach(it => {
+        const row = document.createElement('div');
+        row.className = 'sum-item';
+        row.innerHTML = `
+          <div class="sum-img"><img src="${it.image || 'assets/img/placeholder.png'}" alt=""></div>
+          <div>
+            <div style="font-weight:700">${escapeHTML(it.title || 'Товар')}</div>
+            <div class="muted" style="font-size:12px;">Кол-во: ${it.qty || 1}</div>
+          </div>
+          <div><strong>${CURRENCY.format((it.price || 0) * (it.qty || 1))}</strong></div>
+        `;
+        sumList.appendChild(row);
+        subtotal += (it.price || 0) * (it.qty || 1);
+      });
+
+      const delivery = 0; // в макете — бесплатно
+      sumItemsEl.textContent = CURRENCY.format(subtotal);
+      sumDeliveryEl.textContent = CURRENCY.format(delivery);
+      sumTotalEl.textContent = CURRENCY.format(subtotal + delivery);
+
+      // Разрешим оплату, если корзина не пуста и форма валидна
+      btnPay.disabled = !(items.length && formIsValid());
+    }
+
+    // ===== Валидация формы =====
+    const form = $('#form');
+
+    function setInvalid(id, invalid) {
+      const field = $('#' + id);
+      if (!field) return;
+      const wrap = field.closest('.field') || field.parentElement;
+      if (!wrap) return;
+      wrap.classList.toggle('invalid', invalid);
+    }
+
+    function isEmail(v) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    }
+    function isPhone(v) {
+      const digits = String(v).replace(/\D+/g, '');
+      return digits.length >= 10;
+    }
+    function isZip(v) {
+      return /^\d{5,6}$/.test(v);
+    }
+    function onlyDigits(v) {
+      return String(v).replace(/\D+/g, '');
+    }
+
+    // Маска и проверка номера карты (Luhn)
+    const cardnumber = $('#cardnumber');
+    const exp = $('#exp');
+    const cvc = $('#cvc');
+
+    function luhnCheck(numStr) {
+      const arr = numStr.split('').reverse().map(n => parseInt(n, 10));
+      const sum = arr.reduce((acc, val, idx) => {
+        if (idx % 2 === 1) {
+          let dbl = val * 2;
+          if (dbl > 9) dbl -= 9;
+          return acc + dbl;
+        }
+        return acc + val;
+      }, 0);
+      return sum % 10 === 0;
+    }
+
+    function formatCardNumber(v) {
+      return onlyDigits(v).slice(0,16).replace(/(\d{4})(?=\d)/g, '$1 ').trim();
+    }
+    function validateCardNumber() {
+      const raw = onlyDigits(cardnumber.value);
+      const ok = raw.length === 16 && luhnCheck(raw);
+      setInvalid('f-cardnumber', !ok);
+      return ok;
+    }
+
+    function formatExp(v) {
+      const d = onlyDigits(v).slice(0,4);
+      if (d.length <= 2) return d;
+      return d.slice(0,2) + '/' + d.slice(2);
+    }
+    function validateExp() {
+      const m = exp.value.split('/')[0];
+      const y = exp.value.split('/')[1];
+      let ok = false;
+      if (m && y && /^\d{2}$/.test(m) && /^\d{2}$/.test(y)) {
+        const mm = Number(m);
+        const yy = Number('20' + y);
+        if (mm >= 1 && mm <= 12) {
+          const now = new Date();
+          const lastDay = new Date(yy, mm, 0); // конец месяца
+          ok = lastDay >= new Date(now.getFullYear(), now.getMonth(), 1);
+        }
+      }
+      setInvalid('f-exp', !ok);
+      return ok;
+    }
+    function validateCVC() {
+      const ok = /^\d{3}$/.test(onlyDigits(cvc.value));
+      setInvalid('f-cvc', !ok);
+      return ok;
+    }
+
+    function validateName() {
+      const v = $('#name').value.trim();
+      const ok = v.split(/\s+/).length >= 2 && v.length >= 3;
+      setInvalid('f-name', !ok);
+      return ok;
+    }
+    function validateEmail() {
+      const ok = isEmail($('#email').value.trim());
+      setInvalid('f-email', !ok);
+      return ok;
+    }
+    function validatePhone() {
+      const ok = isPhone($('#phone').value);
+      setInvalid('f-phone', !ok);
+      return ok;
+    }
+    function validateStreet() {
+      const ok = $('#street').value.trim().length >= 5;
+      setInvalid('f-street', !ok);
+      return ok;
+    }
+    function validateCity() {
+      const ok = $('#city').value.trim().length >= 2;
+      setInvalid('f-city', !ok);
+      return ok;
+    }
+    function validateZip() {
+      const ok = isZip($('#zip').value.trim());
+      setInvalid('f-zip', !ok);
+      return ok;
+    }
+    function validateCardName() {
+      const v = $('#cardname').value.trim();
+      const ok = /^[A-Z][A-Z\s\-']+[A-Z]$/.test(v) && v.length >= 3;
+      setInvalid('f-cardname', !ok);
+      return ok;
+    }
+
+    function formIsValid() {
+      return (
+        validateName() &&
+        validateEmail() &&
+        validatePhone() &&
+        validateStreet() &&
+        validateCity() &&
+        validateZip() &&
+        validateCardName() &&
+        validateCardNumber() &&
+        validateExp() &&
+        validateCVC()
+      );
+    }
+
+    // Маски ввода
+    cardnumber.addEventListener('input', () => {
+      const pos = cardnumber.selectionStart;
+      cardnumber.value = formatCardNumber(cardnumber.value);
+      setTimeout(() => { cardnumber.selectionStart = cardnumber.selectionEnd = pos; }, 0);
+      validateCardNumber(); togglePay();
+    });
+    exp.addEventListener('input', () => { exp.value = formatExp(exp.value); validateExp(); togglePay(); });
+    cvc.addEventListener('input', () => { validateCVC(); togglePay(); });
+
+    // Валидация на лету
+    $$('#name, #email, #phone, #street, #city, #zip, #cardname').forEach(el => {
+      el.addEventListener('input', () => { 
+        // индивидуальная проверка
+        switch (el.id) {
+          case 'name': validateName(); break;
+          case 'email': validateEmail(); break;
+          case 'phone': validatePhone(); break;
+          case 'street': validateStreet(); break;
+          case 'city': validateCity(); break;
+          case 'zip': validateZip(); break;
+          case 'cardname': validateCardName(); break;
+        }
+        togglePay();
+      });
+    });
+
+    // Доставка (если добавите стоимость — пересчитывайте здесь)
+    $$('#delivery input[type=radio]').forEach(r => r.addEventListener('change', renderSummary));
+
+    function togglePay() {
+      btnPay.disabled = !(loadCart().length && formIsValid());
+    }
+
+    // Отправка формы (имитация оплаты)
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!formIsValid() || !loadCart().length) return;
+
+      btnPay.disabled = true;
+      btnPay.textContent = 'Обработка...';
+
+      // Имитация задержки оплаты
+      setTimeout(() => {
+        // Очистим корзину
+        localStorage.removeItem('cart');
+        // Покажем успех
+        sectionCheckout.style.display = 'none';
+        sectionSuccess.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 900);
+    });
+
+    // Вспомогательное
+    function escapeHTML(str) {
+      return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+    }
+
+    // Инициализация
+    function init() {
+      // Если вы переходите сюда прямо из каталога без корзины:
+      if (!loadCart().length) {
+        // Разрешаем оформить пустую корзину? Нет — блокируем кнопку:
+        btnPay.disabled = true;
+      }
+      renderSummary();
+      // Первичная валидация (на случай автозаполнения)
+      setTimeout(() => { togglePay(); }, 50);
+    }
+    init();
+  </script>
+</body>
+</html>
