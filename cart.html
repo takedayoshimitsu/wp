@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>StableShop — Корзина</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    /* ====== Локальные стили корзины (минимум, без правок общего CSS) ====== */
+    .cart-wrapper { padding-top: 96px; }
+    .cart-empty {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 28px;
+      text-align: center;
+      color: #475569;
+    }
+    .cart-grid {
+      display: grid;
+      grid-template-columns: 1fr 360px; /* список + боковая панель итога */
+      gap: 24px;
+      align-items: start;
+    }
+    .cart-list {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .cart-head, .cart-row {
+      display: grid;
+      grid-template-columns: 96px 1fr 120px 120px 120px 40px; /* фото, название, кол-во, цена, сумма, удалить */
+      gap: 16px;
+      align-items: center;
+      padding: 14px 16px;
+    }
+    .cart-head {
+      background: #f1f5f9;
+      font-weight: 700;
+      color: #0f172a;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .cart-row + .cart-row { border-top: 1px solid #e2e8f0; }
+    .cart-img {
+      width: 96px; height: 96px;
+      display: grid; place-items: center;
+      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;
+      overflow: hidden;
+    }
+    .cart-img img { width: 100%; height: 100%; object-fit: contain; background:#fff; }
+    .cart-title { font-weight: 700; }
+    .qty {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid #e2e8f0; border-radius: 10px; padding: 6px 8px; width: max-content;
+      background: #fff;
+    }
+    .qty button {
+      appearance: none; border: 0; background: #0ea5e9; color: #fff; width: 28px; height: 28px;
+      border-radius: 8px; font-weight: 900; cursor: pointer;
+    }
+    .qty input {
+      width: 44px; text-align: center; border: 0; background: transparent; font-weight: 700;
+    }
+    .muted { color: #475569; }
+    .remove {
+      appearance: none; border: 0; background: transparent; cursor: pointer; color: #94a3b8; font-size: 20px;
+    }
+    .remove:hover { color: #ef4444; }
+
+    .summary {
+      position: sticky; top: 88px;
+      background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px;
+    }
+    .summary h3 { margin: 0 0 10px; font-size: 18px; }
+    .sum-row { display: flex; justify-content: space-between; margin: 8px 0; }
+    .sum-row.total { font-weight: 800; font-size: 18px; }
+    .summary .btn { width: 100%; text-align: center; margin-top: 12px; }
+    .summary .note { font-size: 12px; color:#64748b; text-align:center; margin-top:8px; }
+
+    .cart-actions {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 12px;
+    }
+    .btn-outline {
+      display: inline-block; padding: 10px 14px; border-radius: 10px; border: 1px solid #0ea5e9;
+      color: #0ea5e9; background: #fff; text-decoration: none; font-weight: 700; cursor: pointer;
+    }
+    .btn-outline:hover { background: #e0f2fe; }
+
+    /* Адаптив */
+    @media (max-width: 960px) {
+      .cart-grid { grid-template-columns: 1fr; }
+      .summary { position: static; }
+    }
+    @media (max-width: 720px) {
+      .cart-head { display: none; }
+      .cart-row {
+        grid-template-columns: 96px 1fr; /* Фото + контент */
+        grid-template-rows: auto auto auto auto; /* название, qty, цена/сумма, удалить */
+        row-gap: 8px;
+      }
+      .cart-row .cart-title { grid-column: 2; }
+      .cart-row .qty { grid-column: 2; }
+      .cart-row .price-cell, .cart-row .sum-cell { grid-column: 2; }
+      .cart-row .remove { grid-column: 2; justify-self: end; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Шапка -->
+  <header class="header">
+    <div class="container nav" role="navigation" aria-label="Главное меню">
+      <a href="index.html" aria-label="На главную"><strong>StableShop</strong></a>
+      <nav>
+        <a href="products.html">Каталог</a>
+        <a href="cart.html" aria-current="page">Корзина</a>
+        <a href="checkout.html">Оплата</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container cart-wrapper">
+    <h1 class="page-title">Корзина</h1>
+    <p class="page-subtitle">Проверьте товары и количество перед оплатой.</p>
+
+    <!-- Заглушка "пусто" (скрывается JS, если есть товары) -->
+    <section id="empty" class="cart-empty" hidden>
+      <p>Ваша корзина пока пуста.</p>
+      <a class="btn" href="products.html">Перейти в каталог</a>
+    </section>
+
+    <section id="cart" class="cart-grid" hidden>
+      <!-- Список товаров -->
+      <div>
+        <div class="cart-list">
+          <div class="cart-head">
+            <div>Товар</div>
+            <div>Наименование</div>
+            <div>Кол-во</div>
+            <div>Цена</div>
+            <div>Сумма</div>
+            <div></div>
+          </div>
+          <div id="rows"><!-- строки корзины --></div>
+        </div>
+
+        <div class="cart-actions">
+          <a href="products.html" class="btn-outline">← Продолжить покупки</a>
+          <button id="clear" class="btn-outline" type="button">Очистить корзину</button>
+        </div>
+      </div>
+
+      <!-- Итоги -->
+      <aside class="summary" aria-label="Итоги заказа">
+        <h3>Итоги</h3>
+        <div class="sum-row"><span>Товары</span><span id="sum-items">0 ₽</span></div>
+        <div class="sum-row"><span>Доставка</span><span>бесплатно</span></div>
+        <div class="sum-row total"><span>Итого</span><span id="sum-total">0 ₽</span></div>
+        <a class="btn" id="to-checkout" href="checkout.html">Перейти к оплате</a>
+        <div class="note">Нажимая «Перейти к оплате», вы соглашаетесь с условиями заказа.</div>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">© 2025 StableShop. Все права защищены.</div>
+  </footer>
+
+  <script>
+    // ====== УТИЛИТЫ ======
+    const CURRENCY = new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB', maximumFractionDigits: 0 });
+    const $ = (sel, root = document) => root.querySelector(sel);
+    const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+    function loadCart() {
+      try { return JSON.parse(localStorage.getItem('cart')) || []; }
+      catch { return []; }
+    }
+    function saveCart(items) {
+      localStorage.setItem('cart', JSON.stringify(items));
+    }
+
+    // ====== РЕНДЕРИНГ ======
+    const rowsEl = $('#rows');
+    const cartSection = $('#cart');
+    const emptySection = $('#empty');
+    const sumItemsEl = $('#sum-items');
+    const sumTotalEl = $('#sum-total');
+
+    function rowTemplate(item, idx) {
+      // item: { id, title, price, image, qty }
+      const sum = item.price * item.qty;
+      const row = document.createElement('div');
+      row.className = 'cart-row';
+      row.dataset.index = idx;
+      row.innerHTML = `
+        <div class="cart-img"><img src="${item.image || 'assets/img/placeholder.png'}" alt=""></div>
+        <div class="cart-title">${escapeHTML(item.title || 'Товар')}</div>
+        <div>
+          <div class="qty" role="group" aria-label="Количество">
+            <button type="button" class="dec" aria-label="Уменьшить количество">−</button>
+            <input type="number" class="qinput" min="1" value="${item.qty || 1}">
+            <button type="button" class="inc" aria-label="Увеличить количество">+</button>
+          </div>
+        </div>
+        <div class="price-cell"><span class="price">${CURRENCY.format(item.price || 0)}</span></div>
+        <div class="sum-cell"><strong>${CURRENCY.format(sum)}</strong></div>
+        <button type="button" class="remove" aria-label="Удалить товар">×</button>
+      `;
+      return row;
+    }
+
+    function render() {
+      const items = loadCart();
+      rowsEl.innerHTML = '';
+      if (items.length === 0) {
+        cartSection.hidden = true;
+        emptySection.hidden = false;
+        return;
+      }
+      cartSection.hidden = false;
+      emptySection.hidden = true;
+
+      let sumItems = 0;
+      items.forEach((it, i) => {
+        sumItems += (it.price || 0) * (it.qty || 1);
+        rowsEl.appendChild(rowTemplate(it, i));
+      });
+      sumItemsEl.textContent = CURRENCY.format(sumItems);
+      sumTotalEl.textContent  = CURRENCY.format(sumItems); // доставка 0 ₽
+    }
+
+    // ====== ОБРАБОТЧИКИ СТРОК ======
+    rowsEl.addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      const row = e.target.closest('.cart-row');
+      const idx = Number(row.dataset.index);
+      const items = loadCart();
+
+      if (btn.classList.contains('inc')) {
+        items[idx].qty = Math.min(999, (items[idx].qty || 1) + 1);
+        saveCart(items); render();
+      }
+      if (btn.classList.contains('dec')) {
+        items[idx].qty = Math.max(1, (items[idx].qty || 1) - 1);
+        saveCart(items); render();
+      }
+      if (btn.classList.contains('remove')) {
+        items.splice(idx, 1);
+        saveCart(items); render();
+      }
+    });
+
+    rowsEl.addEventListener('change', (e) => {
+      const input = e.target.closest('.qinput');
+      if (!input) return;
+      const row = e.target.closest('.cart-row');
+      const idx = Number(row.dataset.index);
+      const items = loadCart();
+      const val = Math.max(1, Math.min(999, Number(input.value) || 1));
+      items[idx].qty = val;
+      saveCart(items); render();
+    });
+
+    // ====== КНОПКИ ДЕЙСТВИЙ ======
+    $('#clear').addEventListener('click', () => {
+      if (confirm('Очистить корзину?')) {
+        localStorage.removeItem('cart');
+        render();
+      }
+    });
+
+    $('#to-checkout').addEventListener('click', () => {
+      // просто оставим переход на checkout.html
+      // при необходимости можно сделать проверку наличия товаров
+    });
+
+    // ====== ВСПОМОГАТЕЛЬНОЕ ======
+    function escapeHTML(str) {
+      return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+    }
+
+    // ====== ИНИЦИАЛИЗАЦИЯ ======
+    // На всякий случай: если пришли из каталога с параметрами в URL (?add=id&title=...&price=...&image=...)
+    seedFromURL();
+    render();
+
+    function seedFromURL() {
+      const p = new URLSearchParams(location.search);
+      if (!p.has('add')) return;
+      const id = p.get('add');
+      const title = p.get('title') || 'Товар';
+      const price = Number(p.get('price')) || 0;
+      const image = p.get('image') || '';
+      const items = loadCart();
+      const found = items.find(it => it.id === id);
+      if (found) found.qty = (found.qty || 1) + 1;
+      else items.push({ id, title, price, image, qty: 1 });
+      saveCart(items);
+      history.replaceState({}, '', location.pathname); // очистим параметры
+    }
+  </script>
+</body>
+</html>

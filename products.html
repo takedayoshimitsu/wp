@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>StableShop — Каталог</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- =================== ШАПКА =================== -->
+  <header class="header">
+    <div class="container nav" role="navigation" aria-label="Главное меню">
+      <a href="index.html" aria-label="На главную"><strong>StableShop</strong></a>
+      <nav>
+        <a href="products.html" aria-current="page">Каталог</a>
+        <a href="cart.html">Корзина</a>
+        <a href="checkout.html">Оплата</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- =================== КОНТЕНТ =================== -->
+  <main class="container">
+    <h1 class="page-title">Каталог</h1>
+    <p class="page-subtitle">Выберите устройство — оформление заказа в пару кликов.</p>
+
+    <!-- GRID из карточек -->
+    <section class="products-grid" aria-label="Список товаров">
+
+      <!-- ===== ШАБЛОН КАРТОЧКИ =====
+           • name="gN" уникален на карточку (g1..g20)
+           • порядок <img> в .slides соответствует порядку превью
+           • тексты и цены можно менять по месту
+      -->
+
+      <!-- =========== 1 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/1-1.png" alt="Гильза 1 — вид 1">
+            <img src="assets/img/1-2.png" alt="Гильза 1 — вид 2">
+            <img src="assets/img/1-3.png" alt="Гильза 1 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g1" checked><img src="assets/img/1-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g1"><img src="assets/img/1-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g1"><img src="assets/img/1-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза Socket-Weld, геликоидная</h2>
+          <p class="card-desc">Термогильза, привариваемая к ответной муфте на трубопроводе.</p>
+          <div class="card-meta"><span class="price">9990 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 2 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/2-1.png" alt="Гильза 2 — вид 1">
+            <img src="assets/img/2-2.png" alt="Гильза 2 — вид 2">
+            <img src="assets/img/2-3.png" alt="Гильза 2 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g2" checked><img src="assets/img/2-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g2"><img src="assets/img/2-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g2"><img src="assets/img/2-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза Socket-Weld, коническая</h2>
+          <p class="card-desc">Термогильза, привариваемая к ответной муфте на трубопроводе.</p>
+          <div class="card-meta"><span class="price">3590 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 3 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/3-1.png" alt="Гильза 3 — вид 1">
+            <img src="assets/img/3-2.png" alt="Гильза 3 — вид 2">
+            <img src="assets/img/3-3.png" alt="Гильза 3 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g3" checked><img src="assets/img/3-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g3"><img src="assets/img/3-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g3"><img src="assets/img/3-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза Socket-Weld, прямая</h2>
+          <p class="card-desc">Термогильза, привариваемая к ответной муфте на трубопроводе.</p>
+          <div class="card-meta"><span class="price">3590 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 4 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/4-1.png" alt="Гильза 4 — вид 1">
+            <img src="assets/img/4-2.png" alt="Гильза 4 — вид 2">
+            <img src="assets/img/4-3.png" alt="Гильза 4 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g4" checked><img src="assets/img/4-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g4"><img src="assets/img/4-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g4"><img src="assets/img/4-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза Socket-Weld, ступенчатая</h2>
+          <p class="card-desc">Термогильза, привариваемая к ответной муфте на трубопроводе.</p>
+          <div class="card-meta"><span class="price">4000 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 5 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/5-1.png" alt="Гильза 5 — вид 1">
+            <img src="assets/img/5-2.png" alt="Гильза 5 — вид 2">
+            <img src="assets/img/5-3.png" alt="Гильза 5 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g5" checked><img src="assets/img/5-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g5"><img src="assets/img/5-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g5"><img src="assets/img/5-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза Weld-in, геликоидная</h2>
+          <p class="card-desc">Гильза, привариваемая непосредственно в стенку трубопровода.</p>
+          <div class="card-meta"><span class="price">9990 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 6 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/6-1.png" alt="Гильза 6 — вид 1">
+            <img src="assets/img/6-2.png" alt="Гильза 6 — вид 2">
+            <img src="assets/img/6-3.png" alt="Гильза 6 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g6" checked><img src="assets/img/6-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g6"><img src="assets/img/6-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g6"><img src="assets/img/6-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза Weld-in, коническая</h2>
+          <p class="card-desc">Гильза, привариваемая непосредственно в стенку трубопровода.</p>
+          <div class="card-meta"><span class="price">3590 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 7 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/7-1.png" alt="Гильза 7 — вид 1">
+            <img src="assets/img/7-2.png" alt="Гильза 7 — вид 2">
+            <img src="assets/img/7-3.png" alt="Гильза 7 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g7" checked><img src="assets/img/7-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g7"><img src="assets/img/7-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g7"><img src="assets/img/7-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза Weld-in, прямая</h2>
+          <p class="card-desc">Гильза, привариваемая непосредственно в стенку трубопровода.</p>
+          <div class="card-meta"><span class="price">3590 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 8 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/8-1.png" alt="Гильза 8 — вид 1">
+            <img src="assets/img/8-2.png" alt="Гильза 8 — вид 2">
+            <img src="assets/img/8-3.png" alt="Гильза 8 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g8" checked><img src="assets/img/8-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g8"><img src="assets/img/8-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g8"><img src="assets/img/8-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза Weld-in, ступенчатая</h2>
+          <p class="card-desc">Гильза, привариваемая непосредственно в стенку трубопровода.</p>
+          <div class="card-meta"><span class="price">4000 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 9 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/9-1.png" alt="Гильза 9 — вид 1">
+            <img src="assets/img/9-2.png" alt="Гильза 9 — вид 2">
+            <img src="assets/img/9-3.png" alt="Гильза 9 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g9" checked><img src="assets/img/9-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g9"><img src="assets/img/9-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g9"><img src="assets/img/9-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза резьбовая, геликоидная</h2>
+          <p class="card-desc">Гильза с наружной для установки в штуцер или бобышку.</p>
+          <div class="card-meta"><span class="price">13900 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 10 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/10-1.png" alt="Гильза 10 — вид 1">
+            <img src="assets/img/10-2.png" alt="Гильза 10 — вид 2">
+            <img src="assets/img/10-3.png" alt="Гильза 10 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g10" checked><img src="assets/img/10-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g10"><img src="assets/img/10-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g10"><img src="assets/img/10-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза резьбовая, коническая</h2>
+          <p class="card-desc">Гильза с наружной для установки в штуцер или бобышку.</p>
+          <div class="card-meta"><span class="price">6900 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 11 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/11-1.png" alt="Гильза 11 — вид 1">
+            <img src="assets/img/11-2.png" alt="Гильза 11 — вид 2">
+            <img src="assets/img/11-3.png" alt="Гильза 11 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g11" checked><img src="assets/img/11-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g11"><img src="assets/img/11-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g11"><img src="assets/img/11-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза резьбовая, прямая</h2>
+          <p class="card-desc">Гильза с наружной для установки в штуцер или бобышку.</p>
+          <div class="card-meta"><span class="price">6900 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 12 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/12-1.png" alt="Гильза 12 — вид 1">
+            <img src="assets/img/12-2.png" alt="Гильза 12 — вид 2">
+            <img src="assets/img/12-3.png" alt="Гильза 12 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g12" checked><img src="assets/img/12-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g12"><img src="assets/img/12-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g12"><img src="assets/img/12-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза резьбовая, ступенчатая</h2>
+          <p class="card-desc">Гильза с наружной для установки в штуцер или бобышку.</p>
+          <div class="card-meta"><span class="price">8900 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 13 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/13-1.png" alt="Гильза 13 — вид 1">
+            <img src="assets/img/13-2.png" alt="Гильза 13 — вид 2">
+            <img src="assets/img/13-3.png" alt="Гильза 13 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g13" checked><img src="assets/img/13-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g13"><img src="assets/img/13-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g13"><img src="assets/img/13-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза Van Stone, геликоидная</h2>
+          <p class="card-desc">Гильза имеет отдельный свободно вращающийся фланец (Van Stone flange), надеваемый на буртик или кольцевое утолщение.</p>
+          <div class="card-meta"><span class="price">69000 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 14 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/14-1.png" alt="Гильза 14 — вид 1">
+            <img src="assets/img/14-2.png" alt="Гильза 14 — вид 2">
+            <img src="assets/img/14-3.png" alt="Гильза 14 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g14" checked><img src="assets/img/14-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g14"><img src="assets/img/14-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g14"><img src="assets/img/14-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза Van Stone, коническая</h2>
+          <p class="card-desc">Гильза имеет отдельный свободно вращающийся фланец (Van Stone flange), надеваемый на буртик или кольцевое утолщение.</p>
+          <div class="card-meta"><span class="price">49000 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 15 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/15-1.png" alt="Гильза 15 — вид 1">
+            <img src="assets/img/15-2.png" alt="Гильза 15 — вид 2">
+            <img src="assets/img/15-3.png" alt="Гильза 15 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g15" checked><img src="assets/img/15-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g15"><img src="assets/img/15-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g15"><img src="assets/img/15-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза Van Stone, прямая</h2>
+          <p class="card-desc">Гильза имеет отдельный свободно вращающийся фланец (Van Stone flange), надеваемый на буртик или кольцевое утолщение.</p>
+          <div class="card-meta"><span class="price">49000 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 16 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/16-1.png" alt="Гильза 16 — вид 1">
+            <img src="assets/img/16-2.png" alt="Гильза 16 — вид 2">
+            <img src="assets/img/16-3.png" alt="Гильза 16 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g16" checked><img src="assets/img/16-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g16"><img src="assets/img/16-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g16"><img src="assets/img/16-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза Van Stone, ступенчатая</h2>
+          <p class="card-desc">Гильза имеет отдельный свободно вращающийся фланец (Van Stone flange), надеваемый на буртик или кольцевое утолщение.</p>
+          <div class="card-meta"><span class="price">59000 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 17 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/17-1.png" alt="Гильза 17 — вид 1">
+            <img src="assets/img/17-2.png" alt="Гильза 17 — вид 2">
+            <img src="assets/img/17-3.png" alt="Гильза 17 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g17" checked><img src="assets/img/17-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g17"><img src="assets/img/17-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g17"><img src="assets/img/17-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза фланцевая, геликоидная</h2>
+          <p class="card-desc">Гильза с приваренным или цельным фланцем, устанавливаемая между ответными фланцами трубопровода.</p>
+          <div class="card-meta"><span class="price">59000 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 18 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/18-1.png" alt="Гильза 18 — вид 1">
+            <img src="assets/img/18-2.png" alt="Гильза 18 — вид 2">
+            <img src="assets/img/18-3.png" alt="Гильза 18 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g18" checked><img src="assets/img/18-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g18"><img src="assets/img/18-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g18"><img src="assets/img/18-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза фланцевая, коническая</h2>
+          <p class="card-desc">Гильза с приваренным или цельным фланцем, устанавливаемая между ответными фланцами трубопровода.</p>
+          <div class="card-meta"><span class="price">39000 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 19 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/19-1.png" alt="Гильза 19 — вид 1">
+            <img src="assets/img/19-2.png" alt="Гильза 19 — вид 2">
+            <img src="assets/img/19-3.png" alt="Гильза 19 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g19" checked><img src="assets/img/19-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g19"><img src="assets/img/19-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g19"><img src="assets/img/19-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза фланцевая, прямая</h2>
+          <p class="card-desc">Гильза с приваренным или цельным фланцем, устанавливаемая между ответными фланцами трубопровода.</p>
+          <div class="card-meta"><span class="price">39000 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+      <!-- =========== 20 =========== -->
+      <article class="card">
+        <div class="gallery">
+          <div class="slides">
+            <img src="assets/img/20-1.png" alt="Гильза 20 — вид 1">
+            <img src="assets/img/20-2.png" alt="Гильза 20 — вид 2">
+            <img src="assets/img/20-3.png" alt="Гильза 20 — вид 3">
+          </div>
+          <div class="thumbs">
+            <label class="t1"><input type="radio" name="g20" checked><img src="assets/img/20-1.png" alt="Превью 1"></label>
+            <label class="t2"><input type="radio" name="g20"><img src="assets/img/20-2.png" alt="Превью 2"></label>
+            <label class="t3"><input type="radio" name="g20"><img src="assets/img/20-3.png" alt="Превью 3"></label>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Гильза фланцевая, ступенчатая</h2>
+          <p class="card-desc">Гильза с приваренным или цельным фланцем, устанавливаемая между ответными фланцами трубопровода.</p>
+          <div class="card-meta"><span class="price">46900 ₽</span><a class="btn" href="cart.html">Заказать</a></div>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <!-- =================== ПОДВАЛ =================== -->
+  <footer class="footer">
+    <div class="container">© 2025 StableShop. Все права защищены.</div>
+  </footer>
+</body>
+<script src="js/app.js"></script>
+
+</html>
